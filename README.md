@@ -66,3 +66,4 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `yarn build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+An app adaptation of THREE-DRAGON ANTE: DICE GAMBIT by Christopher A. Cox which is an adaptation of the THREE-DRAGON ANTE card game by Wizards of the Coast LLC
