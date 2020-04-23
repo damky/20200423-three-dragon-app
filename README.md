@@ -1,3 +1,22 @@
+- ok, how many players? (2-6)
+  - initGambit(numOf, new Player());
+- and what are the names of the real people who wanna roll their own dice?
+  - gambit.playersReal(player.name);
+- and who "owns a set of Three-Dragon-Ante" or are proficient with the gaming set?
+  - gambit.show(real)
+  - gambit.playersRealGood([...player])
+- what's the initial hoard size?
+  - update(gambit.stakes);
+  - update(players.hoard);
+  - update(players.debt);
+- and is that gp, sp, or cp? Nobody wants ep, and if you say pp then just get out.
+  - update(gambit.denomination)
+- gambit.start();
+  - roll(1d12, player.turnOrder)
+  - gambit.sort();
+    - playerIsHighRoller ? player.debt(highestRoll/2) : player.debt(highestRoll)
+  - reorderPlayers
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
