@@ -1,21 +1,44 @@
 - ok, how many players? (2-6)
   - initGambit(numOf, new Player());
 - and what are the names of the real people who wanna roll their own dice?
-  - gambit.playersReal(player.name);
+  - gambit.playersReal(update(player.name));
 - and who "owns a set of Three-Dragon-Ante" or are proficient with the gaming set?
   - gambit.show(real)
-  - gambit.playersRealGood([...player])
+  - gambit.playersRealGood(player.name)
 - what's the initial hoard size?
-  - update(gambit.stakes);
-  - update(players.hoard);
-  - update(players.debt);
+  - update([...gambit.players].hoard);
 - and is that gp, sp, or cp? Nobody wants ep, and if you say pp then just get out.
   - update(gambit.denomination)
 - gambit.start();
-  - roll(1d12, player.turnOrder)
+  - roll(1d12, [...gambit.players], update(player.turnOrder))
   - gambit.sort();
-    - playerIsHighRoller ? player.debt(highestRoll/2) : player.debt(highestRoll)
-  - reorderPlayers
+    - playerIsHighRoller ? player.anteUp(highestRoll/2) : player.anteUp(highestRoll)
+      - canAnte() ? player.hoard -= ante : player.debt += ante
+      - gambit.stakes + ante
+- gambit.round(3);
+  - for (turn in gambit.players) {player.play()}
+    - player.continue ? player.anteUp() : player.walkAway()
+- gambit.specialDragonFlights()
+  - [god, triplet, allied, leader]
+- gambit.settleDebts()
+- gambit.winnerIs()
+  - gambit.
+- gambit.endOrRepeat()
+
+Dragon Card Table:
+D12.Type......Alignment......Strength
+1...Tiamat....[god]...Evil...1
+2...Brass.....[!god]..Good...1d4
+3...White.....[!god]..Evil...1d4
+4...Copper....[!god]..Good...1d6
+5...Black.....[!god]..Evil...1d6
+6...Bronze....[!god]..Good...1d8
+7...Green.....[!god]..Evil...1d8
+8...Silver....[!god]..Good...1d10
+9...Blue......[!god]..Evil...1d10
+10..Gold......[!god]..Good...1d12
+11..Red.......[!god]..Evil...1d12
+12..Bahamut...[god]....Good..13
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
