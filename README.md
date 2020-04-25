@@ -36,7 +36,7 @@
         - !isEvil && god ? gambit.bahamut.yes && gambit.bahamut.howMany += 1 && create new BahamutBtn(whose)
           - triggerBahamut(whoTriggered)
             - showPlayers(.some[...gambit.players.cards.evil])
-              - gambit.bahamut.howMany -= 1 && gambit.tiamat.howMany -= 1 && playerChosen.tiamat = type.red,roll(1d12) && bahamutPlayer
+              - gambit.bahamut.howMany -= 1 && gambit.tiamat.howMany -= 1 && tiamatPlayer = type.red,roll(1d12) && bahamutPlayer = type.gold,roll(1d12)
       - anteUp() => player.hoard -= dragon.strength; gambit.stakes += dragon.strength
 - gambit.triggerSpecialDragonFlights().forEach(player)
   - if (isGodFlight([...player.cards].every(card=>card.god))) player.hoard += roundDown(gambit.stakes/2)
