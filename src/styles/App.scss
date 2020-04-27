@@ -1,0 +1,50 @@
+$c1: #444;
+$c2: #eee;
+
+main {
+  max-width: 800px;
+  width: 100vw;
+  height: 100vh;
+  padding: 1rem;
+  margin: 0 auto;
+
+  .centerBlock {
+    text-align: center;
+
+    li {
+      display: inline-block;
+      list-style: none;
+      margin: auto;
+    }
+
+    li:not(:last-of-type) {
+      margin-right: 1em;
+    }
+  }
+}
+
+.Nav {
+  background: $c2;
+  margin: 0 auto 1em;
+
+  ul {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+  }
+
+  li {
+    // display: inline-block;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    a {
+      text-decoration: none;
+      color: $c1;
+      padding: 1em;
+      line-height: calc(1.6em * 2);
+    }
+  }
+}

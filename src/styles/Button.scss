@@ -1,0 +1,23 @@
+$c1: #444;
+$c2: #eee;
+
+a.btn {
+  background-color: $c2;
+  color: $c1;
+  border: 3px solid $c1;
+  border-radius: 8px;
+  padding: 0.5em 1em;
+  margin: 0 auto;
+  text-decoration: none;
+}
+
+a.btn:hover,
+a.btn:focus {
+  background-color: $c1;
+  color: $c2;
+  border-color: $c2;
+}
+
+a.btn:active {
+  background-color: transparent;
+}
