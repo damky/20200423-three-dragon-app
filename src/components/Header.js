@@ -18,7 +18,7 @@ function Header(props){
     <React.Fragment>
       <header>
         <Nav/>
-        <UnBkg className="titleBox" photoId={dragon} wXh="600" overlay={{padding: '2em'}}>
+        <UnBkg className="titleBox" photoId={dragon} wXh="600" overlay={{padding:props.titlePadding}}>
           <h1>{props.title}</h1>
         </UnBkg>
       </header>

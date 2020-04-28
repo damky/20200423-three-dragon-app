@@ -3,7 +3,7 @@ import Typography from "typography";
 const typography = new Typography({
   baseFontSize: '16px',
   baseLineHeight: 1.666,
-  scaleRatio: 2,
+  scaleRatio: 4,
   googleFonts: [
     {
       name: 'Anton',
@@ -23,8 +23,8 @@ const typography = new Typography({
   ],
   headerFontFamily: ['Anton', 'serif'],
   bodyFontFamily: ['Open Sans', 'serif'],
-  headerColor: 'rgba(199, 250, 208, 1)',
-  bodyColor: 'rgba(199, 250, 208, 1)',
+  headerColor: 'rgba(250, 250, 250, 1)',
+  bodyColor: 'rgba(220, 220, 220, 1)',
   headerWeight: '400',
   bodyWeight: '300',
   boldWeight: '700',

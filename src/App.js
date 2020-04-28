@@ -32,7 +32,7 @@ function Home() {
     {to:"/rules", text:"No, I need to see the rules first."}
   ];
   return <React.Fragment>
-      <Layout title="Home">
+      <Layout title="Home" titlePadding="12vw">
         <p>Would you like to play a game?</p>
         <ButtonList btns={btns} />
       </Layout>
@@ -41,7 +41,7 @@ function Home() {
 
 function Setup() {
   return (
-    <Layout title="Setup">
+    <Layout title="Setup" titlePadding="2em">
       <DropSelect>
         <SelectOption value={2} />
         <SelectOption value={3} />
@@ -55,7 +55,7 @@ function Setup() {
 
 function Rules() {
   return (
-    <Layout title="Rules">
+    <Layout title="Rules" titlePadding="2em">
       <p>You don't need no rules.</p>
     </Layout>
   );

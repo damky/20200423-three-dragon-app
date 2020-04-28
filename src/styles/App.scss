@@ -1,23 +1,12 @@
 @import "./colors.scss";
+
 main {
-  background-color: $black;
   max-width: 800px;
-  width: 100vw;
-  height: 100vh;
   padding: 1rem;
   margin: 0 auto;
 
   .centerBlock {
+    margin: auto;
     text-align: center;
-
-    li {
-      display: inline-block;
-      list-style: none;
-      margin: auto;
-    }
-
-    li:not(:last-of-type) {
-      margin-right: 1em;
-    }
   }
 }

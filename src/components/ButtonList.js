@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "./Button";
+import "../styles/ButtonList.scss"
 
 function ListItem(props) {
   const text = props.text;
