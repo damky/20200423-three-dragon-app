@@ -1,11 +1,10 @@
-$c1: #444;
-$c2: #eee;
+@import "./colors.scss";
 
 a.btn {
-  background-color: $c2;
-  color: $c1;
-  border: 3px solid $c1;
-  border-radius: 8px;
+  background-color: $white1;
+  color: $grey1;
+  // border: 3px solid $grey3;
+  // border-radius: 8px;
   padding: 0.5em 1em;
   margin: 0 auto;
   text-decoration: none;
@@ -13,11 +12,12 @@ a.btn {
 
 a.btn:hover,
 a.btn:focus {
-  background-color: $c1;
-  color: $c2;
-  border-color: $c2;
+  background-color: $grey1;
+  color: $white2;
+  // border-color: $grey4;
 }
 
 a.btn:active {
-  background-color: transparent;
+  background-color: $white2;
+  color: $black;
 }

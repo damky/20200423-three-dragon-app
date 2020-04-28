@@ -1,0 +1,38 @@
+@import "./colors.scss";
+
+.Nav {
+  .logo {
+    font-weight: 700;
+  }
+
+  background: $grey1;
+  margin: 0 auto 1em;
+
+  ul {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+  }
+
+  li {
+    // display: inline-block;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    a {
+      text-decoration: none;
+      padding: 1em;
+      line-height: calc(1.6em * 2);
+    }
+
+    a:visited {
+      color: inherit;
+    }
+  }
+
+  li:hover {
+    background-color: $red2;
+  }
+}
