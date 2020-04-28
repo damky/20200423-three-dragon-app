@@ -32,7 +32,7 @@ function Home() {
     {to:"/rules", text:"No, I need to see the rules first."}
   ];
   return <React.Fragment>
-      <Layout title="Home" titlePadding="12vw">
+      <Layout title="Home" titlePadding="6em">
         <p>Would you like to play a game?</p>
         <ButtonList btns={btns} />
       </Layout>

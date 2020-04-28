@@ -1,26 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+// import "normalize.css";
+import "./utils/typography"
+import * as serviceWorker from './serviceWorker';
+// import { TypographyStyle, GoogleFont } from 'react-typography';
+// import typography from './utils/typography';
 import './index.scss';
 import App from './App';
-import * as serviceWorker from './serviceWorker';
-import { TypographyStyle, GoogleFont } from 'react-typography'
-import typography from './utils/typography'
 
-class HeadChildren extends React.Component {
-  render() {
-    return (ReactDOM.createPortal(
-      <React.Fragment>
-        <TypographyStyle typography={typography} />
-        <GoogleFont typography={typography} />
-      </React.Fragment>,
-      document.getElementsByTagName('head')[0]
-    ))
-  }
-}
+// class HeadChildren extends React.Component {
+//   render() {
+//     return (ReactDOM.createPortal(
+//       <React.Fragment>
+//         <TypographyStyle typography={typography} />
+//         <GoogleFont typography={typography} />
+//       </React.Fragment>,
+//       document.getElementsByTagName('head')[0]
+//     ))
+//   }
+// }
 
 ReactDOM.render(
   <React.Fragment>
-    <HeadChildren />
+    {/* <HeadChildren /> */}
     <App />
   </React.Fragment>,
   document.getElementById('root')
