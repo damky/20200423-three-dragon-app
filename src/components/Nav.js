@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "../styles/Nav.scss";
 
 function Nav() {
@@ -7,16 +7,16 @@ function Nav() {
     <nav className='Nav'>
       <ul>
         <li>
-          <Link to="/" className="logo" >Three Dragons</Link>
+          <NavLink to="/" className="logo" >Three Dragons</NavLink>
         </li>
         <li>
-          <Link to="/">Home</Link>
+          <NavLink to="/">Home</NavLink>
         </li>
         <li>
-          <Link to="/play/setup">Setup</Link>
+          <NavLink to="/play/setup">Setup</NavLink>
         </li>
         <li>
-          <Link to="/rules">Rules</Link>
+          <NavLink to="/rules">Rules</NavLink>
         </li>
       </ul>
     </nav>

@@ -1,22 +1,25 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route} from "react-router-dom";
 import './styles/App.scss';
-import DropSelect from './components/DropSelect';
-import SelectOption from './components/SelectOption';
 import ButtonList from "./components/ButtonList";
 import Layout from './components/Layout';
+import Game from "./components/Game";
+import { SetupForm } from "./components/SetupForm";
 
 function App() {
   return (
     <BrowserRouter>    
       <Switch>
         <Route path="/play/setup">
-          <Setup/>
+          <Setup />
         </Route>
         <Route path="/rules">
           <Rules/>
         </Route>
-        <Route path="/">
+        <Route path="/play">
+          <Play/>
+        </Route>
+        <Route exact path="/">
           <Home/>
         </Route>
       </Switch>
@@ -42,15 +45,17 @@ function Home() {
 function Setup() {
   return (
     <Layout title="Setup" titlePadding="2em">
-      <DropSelect>
-        <SelectOption value={2} />
-        <SelectOption value={3} />
-        <SelectOption value={4} />
-        <SelectOption value={5} />
-        <SelectOption value={6} />
-      </DropSelect>
+      <SetupForm />
     </Layout>
   );
+}
+
+function Play() {
+  return (
+    <Layout title="Three Dragon Ante" titlePadding="2em">
+      <Game />
+    </Layout>
+  )
 }
 
 function Rules() {

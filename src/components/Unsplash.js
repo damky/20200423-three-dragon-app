@@ -10,7 +10,7 @@ function UnBkg(props) {
   const bkg = `url(https://source.unsplash.com/${props.photoId}/${props.wXh})`;
   const bkgStyles = props.style;
   const bkgOverlay = props.overlay;
-  console.log(props.overlay);
+  // console.log(props.overlay);
   return (
     <React.Fragment>
       <div className={props.className} style={{...{backgroundImage: bkg, backgroundPosition: 'center', backgroundRepeat:'no-repeat', backgroundSize: 'cover'}, ...bkgStyles}}>

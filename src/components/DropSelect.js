@@ -22,7 +22,7 @@ class DropSelect extends React.Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <label>
-          How many are playing? 
+          {this.props.title}
           <select value={this.state.value} onChange={this.handleChange}>
             {this.props.children}
           </select>

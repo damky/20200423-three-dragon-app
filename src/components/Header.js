@@ -1,6 +1,6 @@
 import React from "react";
 import Nav from "./Nav";
-import ReactDOM from "react-dom";
+// import ReactDOM from "react-dom";
 import { useRouteMatch } from "react-router-dom";
 import "../styles/Header.scss";
 import {UnBkg} from "./Unsplash";
@@ -9,10 +9,8 @@ function Header(props){
   // const location = useLocation();
   const match = useRouteMatch("/");
   const dragon = 'p1iT_xfrRkQ';
-  
-  ReactDOM.render(
-  <React.Fragment>Three Dragons{!match.isExact && ` | ${props.title}`}</React.Fragment>,document.querySelector('head title')
-  )
+
+  document.title = match.isExact ? "Three Dragons" : `Three Dragons | ${props.title}`;
 
   return (
     <React.Fragment>
