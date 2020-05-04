@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { StateProvider } from "./utils/GameInfo";
 // import "normalize.css";
 import "./utils/typography"
 import * as serviceWorker from './serviceWorker';
@@ -21,10 +22,10 @@ import App from './App';
 // }
 
 ReactDOM.render(
-  <React.Fragment>
-    {/* <HeadChildren /> */}
+  <StateProvider>
     <App />
-  </React.Fragment>,
+  </StateProvider>,
+  // <App/>,
   document.getElementById('root')
 );
 

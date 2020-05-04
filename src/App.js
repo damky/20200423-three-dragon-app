@@ -4,21 +4,22 @@ import './styles/App.scss';
 import ButtonList from "./components/ButtonList";
 import Layout from './components/Layout';
 import Game from "./components/Game";
-import { SetupForm } from "./components/SetupForm";
+import SetupForm from "./components/SetupForm";
 
 function App() {
+
   return (
     <BrowserRouter>    
       <Switch>
-        <Route path="/play/setup">
-          <Setup />
-        </Route>
+          <Route path="/play/setup">
+            <Setup />
+          </Route>
         <Route path="/rules">
           <Rules/>
         </Route>
-        <Route path="/play">
-          <Play/>
-        </Route>
+          <Route path="/play">
+            <Play/>
+          </Route>
         <Route exact path="/">
           <Home/>
         </Route>
