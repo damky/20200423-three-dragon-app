@@ -1,7 +1,8 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import SelectOption from "./SelectOption";
 import { GameInfo } from "../utils/GameInfo";
+// import ReactDOM from "react-dom";
 
 const SetupForm = (props) => {
 
@@ -22,14 +23,18 @@ const SetupForm = (props) => {
   //   (matchEnd !== null) && dispatch({ type: 'TOGGLE_FINISHED'});
   // },[dispatch, matchEnd]);
 
-  function Prev(props) {
-    function subtr(){dispatch({type:'SUBTRACT_STEP'})}
+  function Prev() {
+    // function subtr(){dispatch({type:'SUBTRACT_STEP'})}
+    function startOver() {
+      dispatch({type: "START_OVER"})
+      document.location = document.location.protocol + "//" + document.location.host + "/play/setup/"
+    }
     return (
-      <button onClick={subtr} className="btn">Previous</button>
+      <button onClick={startOver} className="btn">Start Over</button>
     )
   }
 
-  function Next(props) {
+  function Next() {
     function add(){dispatch({type:'ADD_STEP'})}
     return (
       <button onClick={add} className="btn">Next</button>
@@ -46,38 +51,69 @@ const SetupForm = (props) => {
   }
 
 
-  function Step1(props) {
+  function Step1() {
+    useEffect(()=>{
+      createPlayers();
+    });
+
+    function createPlayers(c,count) {
+      dispatch({type:"CLEAR_PLAYERS"});
+      if (count === undefined) {count = gameState.state.setup.playersCount}
+      if (c === undefined) {c = gameState.state.gambit.players.length}
+      while (c < count) {
+        dispatch({type:"NEW_PLAYER"});
+        c++;
+      }
+    }
     return (
       <div>
-        one
         <label>
-          Ok. How many are playing? 
-          <select 
-            value={gameState.state.setup.playersCount} 
-            onChange={(e) => {
-              let count = e.target.value;
-              dispatch({ type: `PLAYERS_COUNT_${count}`})
-            }}>
-            <SelectOption value={2} />
-            <SelectOption value={3} />
-            <SelectOption value={4} />
-            <SelectOption value={5} />
-            <SelectOption value={6} />
-          </select>
+          <h4>OK. How many are playing?</h4> 
+            <select 
+              value={gameState.state.setup.playersCount} 
+              onChange={(e) => {
+                let count = e.target.value;
+                dispatch({ type: `PLAYERS_COUNT_${count}`});
+                createPlayers(e.target.value,gameState.state.setup.playersCount);
+              }}>
+              <SelectOption value={2} />
+              <SelectOption value={3} />
+              <SelectOption value={4} />
+              <SelectOption value={5} />
+              <SelectOption value={6} />
+            </select>
         </label>
       </div>
     );
   }
 
-  function Step2(props) {
+  function Name(props) {
+    return <><label>{props.label}<br/><input name={props.name} value={props.value} onChange={props.onChange} /></label><br/></>
+  }
+  
+  function Step2() {  
+
+    function handleChange(e) {
+      console.log(e.target.name, playerName);
+      setPlayerName(e.target.value);
+    }
+    
+    // Array.from(this.players).map((player)=>console.log(player))
+    const players = gameState.state.gambit.players;
+    const [playerName, setPlayerName] = useState(players);
+    const names = players.map( (player, iter) => <Name name={`player${iter}`} key={player.name+iter} label={`Player ${iter+1} name:`} value={players[iter].name} onChange={handleChange} /> );
     return (
-      <div>
-        two
-      </div>
+      <React.Fragment>
+        <h4>and what are the names of the real people who wanna roll their own dice?</h4>
+          <div id="playersNames">
+            {names}
+          </div>
+        
+      </React.Fragment>
     );
   }
 
-  function Step3(props) {
+  function Step3() {
     return (
       <div>
         three
@@ -85,7 +121,7 @@ const SetupForm = (props) => {
     );
   }
 
-  function Step4(props) {
+  function Step4() {
     return (
       <div>
         four
@@ -93,17 +129,15 @@ const SetupForm = (props) => {
     );
   }
 
-  function Step5(props) {
+  function Step5() {
     return (
       <div>
         five
-       
-          
       </div>
     );
   }
 
-  function Step6(props) {
+  function Step6() {
     return (
       <div>
         six
@@ -111,7 +145,7 @@ const SetupForm = (props) => {
     );
   }
 
-  function Step7(props) {
+  function Step7() {
     return (
       <div>
         seven
@@ -119,7 +153,7 @@ const SetupForm = (props) => {
     );
   }
 
-  function Step8(props) {
+  function Step8() {
     return (
       <div>
         eight
@@ -127,11 +161,11 @@ const SetupForm = (props) => {
     );
   }
 
-
-
-  function Steps(props) {
+  function Steps() {
     return (
       <>
+        <h2>Setup</h2>
+        <h3>Step {step}</h3>
         {step === 1 && <Step1 />}
         {step === 2 && <Step2 />}
         {step === 3 && <Step3 />}

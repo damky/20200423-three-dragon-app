@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useReducer, useState } from "react";
 
 const initialState = {
   setup: {
@@ -15,8 +15,10 @@ const GameInfo = createContext(initialState);
 const { Provider } = GameInfo;
 
 const StateProvider = ( { children } ) => {
+  const [curState, setCurState] = useState(initialState);
+
   const [state, dispatch] = useReducer((state, action) => {
-    const newState = state;
+    const newState = initialState;
 
     const subtractStep = function(){
       let curStep = state.setup.step;
@@ -33,28 +35,25 @@ const StateProvider = ( { children } ) => {
     const addStep = function(){
       let curStep = state.setup.step;
       if (curStep < 1) {
-        curStep = 1
+        curStep = 1;
         return curStep;
       } 
       if (curStep > 8) {
         return 8;
       } 
       else {
-        curStep = state.setup.step + 1
+        curStep = state.setup.step + 1;
         return curStep;
       };
     }
 
     const toggleFinished = ()=>{
-      return !state.setup.finished
+      return !state.setup.finished;
     };
 
     switch (action.type) {
       case 'START_OVER':
-        newState.setup.step = 1;
-        newState.gambit.players = [];
-        newState.gambit.stakes = 0;
-        break;
+        return newState;
       case 'TOGGLE_FINISHED':
         return {
           setup: {
@@ -73,8 +72,21 @@ const StateProvider = ( { children } ) => {
             this.hoard = hoard;
           }
         }
-        newState.gambit.players.push(new Player());
-        break;
+        function newPlayer() {
+          const {gambit} = state;
+          const {players} = gambit;
+          let player = new Player("Player"+(players.length + 1),false,false,100);
+          players.push(player);
+          return state;
+        }
+        return newPlayer();
+      case 'CLEAR_PLAYERS':
+        function clearPlayers() {
+          const {gambit} = state;
+          gambit.players = [];
+          return state;
+        };
+        return clearPlayers();
       case 'PLAYERS_COUNT_2':
         return {
           setup: {
@@ -143,7 +155,7 @@ const StateProvider = ( { children } ) => {
     };
   }, initialState);
 
-  return <Provider value={{ state, dispatch }}>{children}</Provider>;
+  return <Provider value={{ state, dispatch, curState, setCurState }}>{children}</Provider>;
 };
 
-export { GameInfo, StateProvider};
+export { GameInfo, StateProvider };
