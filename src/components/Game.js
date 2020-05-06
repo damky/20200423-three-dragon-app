@@ -1,13 +1,17 @@
 import React, { useContext } from "react";
-import { GameInfo } from "../utils/GameInfo";
+// import { Consumer } from "../utils/context";
 import { Redirect } from "react-router-dom";
+import { StoreContext } from "..";
+
+
 
 function Game(props) {
-  let gameState = useContext(GameInfo);
+  // const gameDispatch = useContext(gameContext);
+  const gameState = useContext(StoreContext);
   console.log(gameState.state.setup, gameState.state.gambit);
   return (
     <div>
-      {!gameState.state.setup.finished && <Redirect to="/play/setup/" />}
+      {!props.state.setup.finished && <Redirect to="/play/setup/" />}
     </div>
   );
 }

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { createContext } from 'react';
 import ReactDOM from 'react-dom';
-import { StateProvider } from "./utils/GameInfo";
+// import {Provider} from "./utils/context";
 // import "normalize.css";
 import "./utils/typography"
 import * as serviceWorker from './serviceWorker';
@@ -8,6 +8,7 @@ import * as serviceWorker from './serviceWorker';
 // import typography from './utils/typography';
 import './index.scss';
 import App from './App';
+import { GameProvider } from './utils/GameInfo';
 
 // class HeadChildren extends React.Component {
 //   render() {
@@ -20,12 +21,47 @@ import App from './App';
 //     ))
 //   }
 // }
+const StoreContext = createContext({});
+
+class Store extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state =  {
+      setup: {
+        step: 1,
+        finished: false,
+        playersCount: 2
+      },
+      gambit: {
+        players: [],
+        stakes: 0
+      },
+      actions: {
+        handleChange: (e) => {
+          const { name, value } = e.target;
+          this.setState({ [name]: value });
+        },
+      }
+    };
+  }
+
+  render() {
+    return (
+      <StoreContext.Provider value={this.state}>
+        <GameProvider>
+          <App />
+        </GameProvider>
+      </StoreContext.Provider>
+    );
+  }
+}
+
+export default Store;
+
+export {StoreContext}
 
 ReactDOM.render(
-  <StateProvider>
-    <App />
-  </StateProvider>,
-  // <App/>,
+  <Store/>,
   document.getElementById('root')
 );
 

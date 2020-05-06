@@ -1,24 +1,15 @@
-import React, { createContext, useReducer, useState } from "react";
+import React, { useReducer, createContext, useContext } from "react";
+import { StoreContext } from "../index";
+// import { Provider } from "../utils/context";
 
-const initialState = {
-  setup: {
-    step: 1,
-    finished: false,
-    playersCount: 2
-  },
-  gambit: {
-    players: [],
-    stakes: 0
-  }
-};
-const GameInfo = createContext(initialState);
-const { Provider } = GameInfo;
+const GameContext = createContext({});
 
-const StateProvider = ( { children } ) => {
-  const [curState, setCurState] = useState(initialState);
-
+const GameProvider = ( { children } ) => {
+  // const InnerGameContext = createContext(StoreContext);
+  const gameState = useContext(StoreContext);
+  
   const [state, dispatch] = useReducer((state, action) => {
-    const newState = initialState;
+    const newState = gameState.state;
 
     const subtractStep = function(){
       let curStep = state.setup.step;
@@ -61,7 +52,8 @@ const StateProvider = ( { children } ) => {
             finished: toggleFinished(),
             playersCount: state.setup.playersCount
           },
-          gambit: state.gambit
+          gambit: state.gambit,
+          actions: state.actions
         }
       case 'NEW_PLAYER':
         class Player {
@@ -94,7 +86,8 @@ const StateProvider = ( { children } ) => {
             finished: state.setup.finished,
             playersCount: 2
           },
-          gambit: state.gambit
+          gambit: state.gambit,
+          actions: state.actions
         }
       case 'PLAYERS_COUNT_3':
         return {
@@ -103,7 +96,8 @@ const StateProvider = ( { children } ) => {
             finished: state.setup.finished,
             playersCount: 3
           },
-          gambit: state.gambit
+          gambit: state.gambit,
+          actions: state.actions
         }
       case 'PLAYERS_COUNT_4':
         return {
@@ -112,7 +106,8 @@ const StateProvider = ( { children } ) => {
             finished: state.setup.finished,
             playersCount: 4
           },
-          gambit: state.gambit
+          gambit: state.gambit,
+          actions: state.actions
         }
       case 'PLAYERS_COUNT_5':
         return {
@@ -121,7 +116,8 @@ const StateProvider = ( { children } ) => {
             finished: state.setup.finished,
             playersCount: 5
           },
-          gambit: state.gambit
+          gambit: state.gambit,
+          actions: state.actions
         }
       case 'PLAYERS_COUNT_6':
         return {
@@ -130,7 +126,8 @@ const StateProvider = ( { children } ) => {
             finished: state.setup.finished,
             playersCount: 6
           },
-          gambit: state.gambit
+          gambit: state.gambit,
+          actions: state.actions
         }
       case 'ADD_STEP':
         return {
@@ -139,7 +136,8 @@ const StateProvider = ( { children } ) => {
             finished: state.setup.finished,
             playersCount: state.setup.playersCount
           },
-          gambit: state.gambit
+          gambit: state.gambit,
+          actions: state.actions
         }
       case 'SUBTRACT_STEP':
         return {
@@ -148,14 +146,17 @@ const StateProvider = ( { children } ) => {
             finished: state.setup.finished,
             playersCount: state.setup.playersCount
           },
-          gambit: state.gambit
+          gambit: state.gambit,
+          actions: state.actions
         }
       default:
         throw new Error();
     };
-  }, initialState);
+  }, gameState);
 
-  return <Provider value={{ state, dispatch, curState, setCurState }}>{children}</Provider>;
+  return <GameContext.Provider value={{ state, dispatch }}>{children}</GameContext.Provider>;
 };
 
-export { GameInfo, StateProvider };
+// const gameContext = createContext(GameProvider)
+
+export { GameProvider, GameContext };
