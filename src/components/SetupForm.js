@@ -2,24 +2,25 @@ import React, {useEffect, useContext} from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import SelectOption from "./SelectOption";
 import {GameContext} from "../utils/GameInfo";
-import { Consumer } from "../utils/context";
-import { StoreContext } from "..";
+// import { Consumer } from "../utils/context";
+// import { StoreContext } from "..";
 // import ReactDOM from "react-dom";
 
-const SetupForm = (props) => {
-  
+const SetupForm = () => {  
   // let matchStart = useRouteMatch("/play/setup/");
   // let matchEnd = useRouteMatch("/play/setup/8");
   const gameDispatch = useContext(GameContext);
-  const gameState = useContext(StoreContext);
-  console.log(gameDispatch);
+  // const gameState = useContext(StoreContext);
+  console.log('gameDispatch', gameDispatch);
 
-  const {dispatch} = gameDispatch;
-  const step = gameState.setup.step;
+  const {state, dispatch, gameState} = gameDispatch;
+  const step = state.setup.step;
   let curUrl = document.location.protocol + "//" + document.location.host + "/play/setup/" + step;
-  console.log(curUrl);
-  console.log(step);
-  console.log(gameState);
+  console.log('curUrl',curUrl);
+  console.log('step',step);
+  console.log('gameState',gameState);
+  console.log('state',state);
+  
   function Prev() {
     // function subtr(){dispatch({type:'SUBTRACT_STEP'})}
     function startOver() {
@@ -27,7 +28,10 @@ const SetupForm = (props) => {
       document.location = document.location.protocol + "//" + document.location.host + "/play/setup/"
     }
     return (
-      <button onClick={startOver} className="btn">Start Over</button>
+      <>
+        <br/>
+        <button onClick={startOver} className="btn">Start Over</button>
+      </>
     )
   }
 
@@ -55,11 +59,13 @@ const SetupForm = (props) => {
 
     function createPlayers(c,count) {
       dispatch({type:"CLEAR_PLAYERS"});
-      if (count === undefined) {count = gameState.setup.playersCount}
-      if (c === undefined) {c = gameState.gambit.players.length}
+      if (count === undefined) {count = state.setup.playersCount}
+      if (c === undefined) {c = Object.keys(state.gambit.players).length}
       while (c < count) {
         dispatch({type:"NEW_PLAYER"});
         c++;
+        console.log('added new player');
+        
       }
     }
     return (
@@ -67,11 +73,11 @@ const SetupForm = (props) => {
         <label>
           <h4>OK. How many are playing?</h4> 
             <select 
-              value={gameState.setup.playersCount} 
+              value={state.setup.playersCount} 
               onChange={(e) => {
                 let count = e.target.value;
                 dispatch({ type: `PLAYERS_COUNT_${count}`});
-                createPlayers(e.target.value,gameState.setup.playersCount);
+                createPlayers(e.target.value,state.setup.playersCount);
               }}>
               <SelectOption value={2} />
               <SelectOption value={3} />
@@ -84,17 +90,28 @@ const SetupForm = (props) => {
     );
   }
 
-  function Name(props) {
-  return <><label>{props.label}<br/><Consumer>{value => (
-    <input type="text" name={props.name} value={props.value} onChange={value.actions.handleChange} />
-  )}</Consumer></label><br/></>
+  function NameInput(props) {
+    return (
+      <>
+        <label>
+          {props.label}
+          <br/>
+              <input type="text" name={props.name} placeholder={props.placeholder} iter={props.iter} onChange={props.onChange} />
+        </label>
+        <br/>
+      </>
+    )
   }
   
   function Step2() {  
-    
-    // Array.from(this.players).map((player)=>console.log(player))
-    const players = gameState.gambit.players;
-  const names = players.map( (player, iter) => <Name key={player.name+iter} name={`player${iter}`} label={`Player ${iter+1} name:`} value={players[iter].name} /> );
+    const {gambit:{players}} = state;
+    const playersArr = Object.values(players);
+    const names = playersArr.map( (player, iter) => <NameInput key={players[`Player${iter+1}`].name + 'nameKey'} iter={iter} name={`Player${iter+1}`} label={`Player ${iter+1} name:`} onChange={(e) => {
+      
+      const target = e.target;
+      // console.log('testing change', target.value);
+      dispatch({type: "HANDLE_PLAYER_NAME_CHANGE", payload: target});
+    }} placeholder={player.name} /> );
     return (
       <React.Fragment>
         <h4>and what are the names of the real people who wanna roll their own dice?</h4>
@@ -106,50 +123,58 @@ const SetupForm = (props) => {
   }
 
   function Step3() {
+    const {gambit:{players}} = state;
+    const playersArr = Object.values(players);
+    const realPlayers = playersArr.filter((player)=>player.isReal);
+    const theRealPlayers = realPlayers.map((player) => <label key={`${player.player}RealGoodPlayerKey`}>{`${player.name}`}<input type="checkbox" name={`${player.player}`} onChange={(e) => {
+      const target = e.target;
+      dispatch({type:"HANDLE_CHECKBOX", payload: target});
+    }} /><br/></label>)
     return (
-      <div>
-        three
-      </div>
+      <>
+        {realPlayers.length > 0 ? <h4>And who is proficient with a gaming set or owns a set of Three-Dragon-Ante?</h4> : <h4>Nobody is real? If you say so.</h4>}
+        {theRealPlayers}
+      </>
     );
   }
 
   function Step4() {
     return (
-      <div>
+      <>
         four
-      </div>
+      </>
     );
   }
 
   function Step5() {
     return (
-      <div>
+      <>
         five
-      </div>
+      </>
     );
   }
 
   function Step6() {
     return (
-      <div>
+      <>
         six
-      </div>
+      </>
     );
   }
 
   function Step7() {
     return (
-      <div>
+      <>
         seven
-      </div>
+      </>
     );
   }
 
   function Step8() {
     return (
-      <div>
+      <>
         eight
-      </div>
+      </>
     );
   }
 
@@ -166,9 +191,9 @@ const SetupForm = (props) => {
         {step === 6 && <Step6 />}
         {step === 7 && <Step7 />}
         {step === 8 && <Step8 />}
-        {step > 1 && <Prev />}
         {step > 0 && step < 8 && <Next />}
         {step === 8 && <PlayGame />}
+        {step > 1 && <Prev />}
       </>
     )
   }

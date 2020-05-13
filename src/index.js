@@ -33,15 +33,52 @@ class Store extends React.Component {
         playersCount: 2
       },
       gambit: {
-        players: [],
+        players: {
+          Player1: {
+            hoard: 100,
+            isReal: false,
+            isRealGood: false,
+            name: "Player1",
+            player: "Player1"
+          },
+          Player2: {
+            hoard: 100,
+            isReal: false,
+            isRealGood: false,
+            name: "Player2",
+            player: "Player2"
+          },
+          Player3: {
+            hoard: 100,
+            isReal: false,
+            isRealGood: false,
+            name: "Player3",
+            player: "Player3"
+          },
+          Player4: {
+            hoard: 100,
+            isReal: false,
+            isRealGood: false,
+            name: "Player4",
+            player: "Player4"
+          },
+          Player5: {
+            hoard: 100,
+            isReal: false,
+            isRealGood: false,
+            name: "Player5",
+            player: "Player5"
+          },
+          Player6: {
+            hoard: 100,
+            isReal: false,
+            isRealGood: false,
+            name: "Player6",
+            player: "Player6"  
+          },
+        },
         stakes: 0
       },
-      actions: {
-        handleChange: (e) => {
-          const { name, value } = e.target;
-          this.setState({ [name]: value });
-        },
-      }
     };
   }
 
