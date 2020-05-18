@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Switch, Route} from "react-router-dom";
 import './styles/App.scss';
 import ButtonList from "./components/ButtonList";
+import Button from './components/Button'
 import Layout from './components/Layout';
 import Game from "./components/Game";
 import SetupForm from "./components/SetupForm";
@@ -63,6 +64,7 @@ function Rules() {
   return (
     <Layout title="Rules" titlePadding="2em">
       <p>You don't need no rules.</p>
+      <Button to="/play/setup" text="Play instead." />
     </Layout>
   );
 }

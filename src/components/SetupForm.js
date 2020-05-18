@@ -2,6 +2,7 @@ import React, {useEffect, useContext} from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import SelectOption from "./SelectOption";
 import {GameContext} from "../utils/GameInfo";
+import Input from "./Input";
 // import { Consumer } from "../utils/context";
 // import { StoreContext } from "..";
 // import ReactDOM from "react-dom";
@@ -43,11 +44,8 @@ const SetupForm = () => {
   }
 
   function PlayGame() {
-    function toggleFinish() {
-      dispatch({type:'TOGGLE_FINISHED'})
-    }
     return (
-      <Link onClick={toggleFinish} to="/play" className="btn">Play</Link>
+      <Link to="/play" onClick={()=>{dispatch({type:"TOGGLE_FINISHED"})}} className="btn">Play</Link>
     )
   }
 
@@ -89,29 +87,24 @@ const SetupForm = () => {
       </div>
     );
   }
-
-  function NameInput(props) {
-    return (
-      <>
-        <label>
-          {props.label}
-          <br/>
-              <input type="text" name={props.name} placeholder={props.placeholder} iter={props.iter} onChange={props.onChange} />
-        </label>
-        <br/>
-      </>
-    )
-  }
   
   function Step2() {  
     const {gambit:{players}} = state;
     const playersArr = Object.values(players);
-    const names = playersArr.map( (player, iter) => <NameInput key={players[`Player${iter+1}`].name + 'nameKey'} iter={iter} name={`Player${iter+1}`} label={`Player ${iter+1} name:`} onChange={(e) => {
-      
-      const target = e.target;
-      // console.log('testing change', target.value);
-      dispatch({type: "HANDLE_PLAYER_NAME_CHANGE", payload: target});
-    }} placeholder={player.name} /> );
+    const names = playersArr.map( (player, iter) => <Input 
+      type="text" 
+      key={players[`Player${iter+1}`].name + 'nameKey'} 
+      iter={iter} 
+      name={`Player${iter+1}`} 
+      data-property="name" 
+      label={`Player ${iter+1} name:`} 
+      onChange={(e) => {
+        const target = e.target;
+        // console.log('testing change', target.value);
+        dispatch({type: "PLAYER_INPUT", payload: target});
+        dispatch({type:"IS_REAL", payload: target});
+      }} 
+      placeholder={player.name} /> );
     return (
       <React.Fragment>
         <h4>and what are the names of the real people who wanna roll their own dice?</h4>
@@ -126,10 +119,16 @@ const SetupForm = () => {
     const {gambit:{players}} = state;
     const playersArr = Object.values(players);
     const realPlayers = playersArr.filter((player)=>player.isReal);
-    const theRealPlayers = realPlayers.map((player) => <label key={`${player.player}RealGoodPlayerKey`}>{`${player.name}`}<input type="checkbox" name={`${player.player}`} onChange={(e) => {
-      const target = e.target;
-      dispatch({type:"HANDLE_CHECKBOX", payload: target});
-    }} /><br/></label>)
+    const theRealPlayers = realPlayers.map((player) => <Input
+      label={player.name}
+      key={`${player.player}RealGoodPlayerKey`}
+      type="checkbox"
+      name={`${player.player}`}
+      property={player.player.isRealGood} 
+      onChange={(e) => {
+        const target = e.target;
+        dispatch({type:"HANDLE_CHECKBOX", payload: target});
+      }} />)
     return (
       <>
         {realPlayers.length > 0 ? <h4>And who is proficient with a gaming set or owns a set of Three-Dragon-Ante?</h4> : <h4>Nobody is real? If you say so.</h4>}
@@ -141,7 +140,22 @@ const SetupForm = () => {
   function Step4() {
     return (
       <>
-        four
+        <h4>What's the initial hoard size?</h4>
+        <Input 
+          label="Hoard Size"
+          type="number"
+          name="hoardSize"
+          data-property="hoard"
+          placeholder="100"
+          onChange={async (e) => {
+            const target = e.target;
+            const {gambit: {players}} = state;
+            target.value = await Math.abs(Number(target.value));
+            Object.keys(players).forEach((player,iter)=>{
+              target.name = [`Player${iter+1}`];
+              dispatch({type:"PLAYER_INPUT", payload: target});
+            });
+          }} />
       </>
     );
   }
@@ -149,7 +163,22 @@ const SetupForm = () => {
   function Step5() {
     return (
       <>
-        five
+        <h4>And is that gp, sp, or cp? Nobody wants ep, and if you say pp then just get out.</h4>
+        <label>
+          $ Denomination $<br/>
+          <select 
+          name="denomination"
+          placeholder="gp"
+          onChange={(e) => {
+            const target = e.target;
+            dispatch({type: "GAMBIT_INPUT", payload:target});
+          }}>
+            <SelectOption value="gp" />
+            <SelectOption value="sp" />
+            <SelectOption value="cp" />
+            <option value="pp" >OK fine, pp</option>
+          </select>
+        </label>
       </>
     );
   }
@@ -157,26 +186,11 @@ const SetupForm = () => {
   function Step6() {
     return (
       <>
-        six
+        <h4>Let's Play!</h4>
       </>
     );
   }
 
-  function Step7() {
-    return (
-      <>
-        seven
-      </>
-    );
-  }
-
-  function Step8() {
-    return (
-      <>
-        eight
-      </>
-    );
-  }
 
   function Steps() {
     return (
@@ -189,10 +203,8 @@ const SetupForm = () => {
         {step === 4 && <Step4 />}
         {step === 5 && <Step5 />}
         {step === 6 && <Step6 />}
-        {step === 7 && <Step7 />}
-        {step === 8 && <Step8 />}
-        {step > 0 && step < 8 && <Next />}
-        {step === 8 && <PlayGame />}
+        {step > 0 && step < 6 && <Next />}
+        {step === 6 && <PlayGame />}
         {step > 1 && <Prev />}
       </>
     )

@@ -29,8 +29,8 @@ const GameProvider = ( { children } ) => {
         curStep = 1;
         return curStep;
       } 
-      if (curStep > 8) {
-        return 8;
+      if (curStep > 6) {
+        return 6;
       } 
       else {
         curStep = state.setup.step + 1;
@@ -142,30 +142,60 @@ const GameProvider = ( { children } ) => {
           },
           gambit: state.gambit
         }
-      case 'HANDLE_PLAYER_NAME_CHANGE': 
-        function handlePlayerChange(e) {
+      case 'IS_REAL': 
+        function isReal(e) {
           const {gambit} = state;
           const player = e.name;
           const value = e.value;
-          gambit.players[player].name = value;
-          if (gambit.players[player].name === "") {
-            gambit.players[player].name = gambit.players[player].player
+          console.log("is it running?");
+          
+          if (value === gambit.players[player].player || value === "") {
+            // gambit.players[player].name = gambit.players[player].player
             gambit.players[player].isReal = false;
+            console.log("does it if?");
+            
           } else {
             gambit.players[player].isReal = true;
+            console.log("does it else?");
+            
           }
           return state;
         };
-        return handlePlayerChange(action.payload);
+        return isReal(action.payload);
       case 'HANDLE_CHECKBOX':
         function handleCheckbox(e) {
           const {gambit} = state;
           const player = e.name;
+          const property = e.property;
           const value = e.checked;
-          value ? gambit.players[player].isRealGood = true : gambit.players[player].isRealGood = false;
+          value ? gambit.players[player][property] = true : gambit.players[player][property] = false;
           return state;
         }
         return handleCheckbox(action.payload)
+      case 'PLAYER_INPUT':
+        function playerInput(e) {
+          const {gambit} = state;
+          const player = e.name;
+          const placeholder = e.placeholder;
+          const property = e.dataset.property;
+          let value;
+          e.type === "number" ? value = Number(e.value) : value = e.value;
+          value === "" ? gambit.players[player][property] = placeholder : gambit.players[player][property] = value;
+          return state;
+        }
+        return playerInput(action.payload);
+      case 'GAMBIT_INPUT':
+        function gambitInput(e) {
+          const {gambit} = state;
+          const name = e.name;
+          const placeholder = e.placeholder;
+          const value = e.value;
+          gambit.denomination = "";
+          console.log(e,gambit,value);
+          value === "" ? gambit[name] = placeholder : gambit[name] = value;
+          return state;
+        }
+        return gambitInput(action.payload);
       default:
         throw new Error();
     };
