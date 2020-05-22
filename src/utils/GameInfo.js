@@ -42,6 +42,17 @@ const GameProvider = ( { children } ) => {
       return !state.setup.finished;
     };
 
+    const roll = (d) => {
+      const dice = d.match(/(\d+)d(\d+)/);
+      const rollAmt = Number(dice[1]);
+      const dieType = Number(dice[2]);
+      let rollSum = 0;
+      for (let i = 0; i < rollAmt; i++) { 
+        rollSum += Math.ceil(Math.random()*dieType);
+      }
+      return rollSum;
+    };
+
     switch (action.type) {
       case 'START_OVER':
         return newState;
@@ -196,6 +207,16 @@ const GameProvider = ( { children } ) => {
           return state;
         }
         return gambitInput(action.payload);
+      case 'ANTE_UP':
+        function anteUp() {
+          const {gambit: {players}} = state;
+          for (let i = 0; i < Object.keys(players).length; i++) {
+            const player = players[`Player${i+1}`];
+            player.ante = roll('1d12');
+          }
+          return state
+        }
+        return anteUp()
       default:
         throw new Error();
     };
