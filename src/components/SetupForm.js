@@ -169,10 +169,12 @@ const SetupForm = () => {
           <select 
           name="denomination"
           placeholder="gp"
+          defaultValue="-"
           onChange={(e) => {
             const target = e.target;
             dispatch({type: "GAMBIT_INPUT", payload:target});
           }}>
+            <option value="-" hidden disabled >Choose here</option>
             <SelectOption value="gp" />
             <SelectOption value="sp" />
             <SelectOption value="cp" />
