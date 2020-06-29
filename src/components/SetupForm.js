@@ -1,137 +1,176 @@
-import React, {useEffect, useContext} from "react";
+import React, { useEffect, useContext } from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import SelectOption from "./SelectOption";
-import {GameContext} from "../utils/GameInfo";
+import { GameContext } from "../utils/GameInfo";
 import Input from "./Input";
 // import { Consumer } from "../utils/context";
 // import { StoreContext } from "..";
 // import ReactDOM from "react-dom";
 
-const SetupForm = () => {  
+const SetupForm = () => {
   // let matchStart = useRouteMatch("/play/setup/");
   // let matchEnd = useRouteMatch("/play/setup/8");
   const gameDispatch = useContext(GameContext);
   // const gameState = useContext(StoreContext);
-  console.log('gameDispatch', gameDispatch);
 
-  const {state, dispatch, gameState} = gameDispatch;
+  // console.log('gameDispatch', gameDispatch);
+
+  const { state, dispatch } = gameDispatch;
   const step = state.setup.step;
-  let curUrl = document.location.protocol + "//" + document.location.host + "/play/setup/" + step;
-  console.log('curUrl',curUrl);
-  console.log('step',step);
-  console.log('gameState',gameState);
-  console.log('state',state);
-  
+  // let curUrl = document.location.protocol + "//" + document.location.host + "/play/setup/" + step;
+
+  // console.log('step',step);
+  // console.log('state',state);
+
   function Prev() {
     // function subtr(){dispatch({type:'SUBTRACT_STEP'})}
     function startOver() {
-      dispatch({type: "START_OVER"})
-      document.location = document.location.protocol + "//" + document.location.host + "/play/setup/"
+      dispatch({ type: "START_OVER" });
+      document.location =
+        document.location.protocol +
+        "//" +
+        document.location.host +
+        "/play/setup/";
     }
     return (
       <>
-        <br/>
-        <button onClick={startOver} className="btn">Start Over</button>
+        <br />
+        <button onClick={startOver} className="btn">
+          Start Over
+        </button>
       </>
-    )
+    );
   }
 
   function Next() {
-    function add(){dispatch({type:'ADD_STEP'})}
+    function add() {
+      dispatch({ type: "ADD_STEP" });
+    }
     return (
-      <button onClick={add} className="btn">Next</button>
-    )
+      <button onClick={add} className="btn">
+        Next
+      </button>
+    );
   }
 
   function PlayGame() {
     return (
-      <Link to="/play" onClick={()=>{dispatch({type:"TOGGLE_FINISHED"})}} className="btn">Play</Link>
-    )
+      <Link
+        to="/play"
+        onClick={() => {
+          dispatch({ type: "TOGGLE_FINISHED" });
+        }}
+        className="btn"
+      >
+        Play
+      </Link>
+    );
   }
 
-
   function Step1() {
-    useEffect(()=>{
+    useEffect(() => {
       createPlayers();
     });
 
-    function createPlayers(c,count) {
-      dispatch({type:"CLEAR_PLAYERS"});
-      if (count === undefined) {count = state.setup.playersCount}
-      if (c === undefined) {c = Object.keys(state.gambit.players).length}
+    function createPlayers(c, count) {
+      dispatch({ type: "CLEAR_PLAYERS" });
+      if (count === undefined) {
+        count = state.setup.playersCount;
+      }
+      if (c === undefined) {
+        c = Object.keys(state.gambit.players).length;
+      }
       while (c < count) {
-        dispatch({type:"NEW_PLAYER"});
+        dispatch({ type: "NEW_PLAYER" });
         c++;
-        console.log('added new player');
-        
+        // console.log("added new player");
       }
     }
     return (
       <div>
         <label>
-          <h4>OK. How many are playing?</h4> 
-            <select 
-              value={state.setup.playersCount} 
-              onChange={(e) => {
-                let count = e.target.value;
-                dispatch({ type: `PLAYERS_COUNT_${count}`});
-                createPlayers(e.target.value,state.setup.playersCount);
-              }}>
-              <SelectOption value={2} />
-              <SelectOption value={3} />
-              <SelectOption value={4} />
-              <SelectOption value={5} />
-              <SelectOption value={6} />
-            </select>
+          <h4>OK. How many are playing?</h4>
+          <select
+            value={state.setup.playersCount}
+            onChange={(e) => {
+              let count = e.target.value;
+              dispatch({ type: `PLAYERS_COUNT_${count}` });
+              createPlayers(e.target.value, state.setup.playersCount);
+            }}
+          >
+            <SelectOption value={2} />
+            <SelectOption value={3} />
+            <SelectOption value={4} />
+            <SelectOption value={5} />
+            <SelectOption value={6} />
+          </select>
         </label>
       </div>
     );
   }
-  
-  function Step2() {  
-    const {gambit:{players}} = state;
+
+  function Step2() {
+    const {
+      gambit: { players },
+    } = state;
     const playersArr = Object.values(players);
-    const names = playersArr.map( (player, iter) => <Input 
-      type="text" 
-      key={players[`Player${iter+1}`].name + 'nameKey'} 
-      iter={iter} 
-      name={`Player${iter+1}`} 
-      data-property="name" 
-      label={`Player ${iter+1} name:`} 
-      onChange={(e) => {
-        const target = e.target;
-        // console.log('testing change', target.value);
-        dispatch({type: "PLAYER_INPUT", payload: target});
-        dispatch({type:"IS_REAL", payload: target});
-      }} 
-      placeholder={player.name} /> );
+    const names = playersArr.map((player, iter) => (
+      <Input
+        type="text"
+        key={players[`Player${iter + 1}`].name + "nameKey"}
+        iter={iter}
+        name={`Player${iter + 1}`}
+        data-property="name"
+        label={`Player ${iter + 1} name:`}
+        onChange={(e) => {
+          const target = e.target;
+          // console.log('testing change', target.value);
+          dispatch({ type: "PLAYER_INPUT", payload: target });
+          dispatch({ type: "IS_REAL", payload: target });
+        }}
+        placeholder={player.name}
+      />
+    ));
     return (
       <React.Fragment>
-        <h4>and what are the names of the real people who wanna roll their own dice?</h4>
-          <div id="playersNames">
-            {names}
-          </div>
+        <h4>
+          and what are the names of the real people who wanna roll their own
+          dice?
+        </h4>
+        <div id="playersNames">{names}</div>
       </React.Fragment>
     );
   }
 
   function Step3() {
-    const {gambit:{players}} = state;
+    const {
+      gambit: { players },
+    } = state;
     const playersArr = Object.values(players);
-    const realPlayers = playersArr.filter((player)=>player.isReal);
-    const theRealPlayers = realPlayers.map((player) => <Input
-      label={player.name}
-      key={`${player.player}RealGoodPlayerKey`}
-      type="checkbox"
-      name={`${player.player}`}
-      property={player.player.isRealGood} 
-      onChange={(e) => {
-        const target = e.target;
-        dispatch({type:"HANDLE_CHECKBOX", payload: target});
-      }} />)
+    const realPlayers = playersArr.filter((player) => player.isReal);
+    const theRealPlayers = realPlayers.map((player) => (
+      <Input
+        label={player.name}
+        key={`${player.player}RealGoodPlayerKey`}
+        type="checkbox"
+        name={`${player.player}`}
+        property={player.player.isRealGood}
+        onChange={(e) => {
+          const target = e.target;
+          dispatch({ type: "HANDLE_CHECKBOX", payload: target });
+        }}
+      />
+    ));
     return (
       <>
-        {realPlayers.length > 0 ? <h4>And who is proficient with a gaming set or owns a set of Three-Dragon-Ante?</h4> : <h4>Nobody is real? If you say so.</h4>}
+        {realPlayers.length > 0 ? (
+          <h4>
+            And who is proficient with a gaming set or owns a set of
+            Three-Dragon-Ante?
+          </h4>
+        ) : (
+          <h4>Nobody is real? If you say so.</h4>
+        )}
         {theRealPlayers}
       </>
     );
@@ -141,7 +180,7 @@ const SetupForm = () => {
     return (
       <>
         <h4>What's the initial hoard size?</h4>
-        <Input 
+        <Input
           label="Hoard Size"
           type="number"
           name="hoardSize"
@@ -149,13 +188,16 @@ const SetupForm = () => {
           placeholder="100"
           onChange={async (e) => {
             const target = e.target;
-            const {gambit: {players}} = state;
+            const {
+              gambit: { players },
+            } = state;
             target.value = await Math.abs(Number(target.value));
-            Object.keys(players).forEach((player,iter)=>{
-              target.name = [`Player${iter+1}`];
-              dispatch({type:"PLAYER_INPUT", payload: target});
+            Object.keys(players).forEach((player, iter) => {
+              target.name = [`Player${iter + 1}`];
+              dispatch({ type: "PLAYER_INPUT", payload: target });
             });
-          }} />
+          }}
+        />
       </>
     );
   }
@@ -163,22 +205,28 @@ const SetupForm = () => {
   function Step5() {
     return (
       <>
-        <h4>And is that gp, sp, or cp? Nobody wants ep, and if you say pp then just get out.</h4>
+        <h4>
+          And is that gp, sp, or cp? Nobody wants ep, and if you say pp then
+          just get out.
+        </h4>
         <label>
-          $ Denomination $<br/>
-          <select 
-          name="denomination"
-          placeholder="gp"
-          defaultValue="-"
-          onChange={(e) => {
-            const target = e.target;
-            dispatch({type: "GAMBIT_INPUT", payload:target});
-          }}>
-            <option value="-" hidden disabled >Choose here</option>
+          $ Denomination $<br />
+          <select
+            name="denomination"
+            placeholder="gp"
+            defaultValue="-"
+            onChange={(e) => {
+              const target = e.target;
+              dispatch({ type: "GAMBIT_INPUT", payload: target });
+            }}
+          >
+            <option value="-" hidden disabled>
+              Choose here
+            </option>
             <SelectOption value="gp" />
             <SelectOption value="sp" />
             <SelectOption value="cp" />
-            <option value="pp" >OK fine, pp</option>
+            <option value="pp">OK fine, pp</option>
           </select>
         </label>
       </>
@@ -192,7 +240,6 @@ const SetupForm = () => {
       </>
     );
   }
-
 
   function Steps() {
     return (
@@ -209,7 +256,7 @@ const SetupForm = () => {
         {step === 6 && <PlayGame />}
         {step > 1 && <Prev />}
       </>
-    )
+    );
   }
 
   return (
@@ -219,6 +266,6 @@ const SetupForm = () => {
       </Switch>
     </form>
   );
-}
+};
 
 export default SetupForm;
