@@ -1,20 +1,21 @@
 @import "./colors.scss";
 
-a.btn {
+.btn {
   background-color: $white1;
   color: $grey1;
   padding: 0.5em 1em;
-  margin: 0 auto;
+  margin: 0.5em auto;
   text-decoration: none;
+  border-radius: 100px;
 }
 
-a.btn:hover,
-a.btn:focus {
+.btn:hover,
+.btn:focus {
   background-color: $grey1;
   color: $white2;
 }
 
-a.btn:active {
+.btn:active {
   background-color: $white2;
   color: $black;
 }

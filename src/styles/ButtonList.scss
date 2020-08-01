@@ -6,10 +6,10 @@
   li {
     display: inline-block;
     list-style: none;
-    margin: auto;
-  }
+    margin: 0.5em;
 
-  li:not(:last-of-type) {
-    margin-right: 1em;
+    a {
+      display: block;
+    }
   }
 }

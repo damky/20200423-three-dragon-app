@@ -1,0 +1,42 @@
+@import "./colors.scss";
+
+select,
+input {
+  border-radius: 100px;
+  padding: 0.5em;
+  min-width: 100px;
+  margin: 0.5em auto;
+  border: none;
+  display: block;
+}
+
+[type="checkbox"] {
+  display: none;
+}
+
+button {
+  background-color: $white1;
+  color: $grey1;
+  padding: 0.5em 1em;
+  margin: 0.5em auto;
+  text-decoration: none;
+  border-radius: 100px;
+  border: none;
+  display: inline-block;
+}
+button:hover,
+button:focus,
+[type="checkbox"]:checked + label {
+  background-color: $grey1;
+  color: $white2;
+}
+
+button:active {
+  background-color: $white2;
+  color: $black;
+}
+
+label {
+  margin: 0.5em auto 2em;
+  display: block;
+}

@@ -8,7 +8,7 @@ function Nav() {
       <ul>
         <li>
           <NavLink to="/" className="logo">
-            Three Dragons
+            3Dragons
           </NavLink>
         </li>
         <li>

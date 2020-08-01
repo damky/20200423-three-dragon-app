@@ -3,6 +3,7 @@ import { Switch, Route, Link, Redirect } from "react-router-dom";
 import SelectOption from "./SelectOption";
 import { GameContext } from "../utils/GameInfo";
 import Input from "./Input";
+import "../styles/Setup.scss";
 // import { Consumer } from "../utils/context";
 // import { StoreContext } from "..";
 // import ReactDOM from "react-dom";
@@ -117,7 +118,7 @@ const SetupForm = () => {
         iter={iter}
         name={`Player${iter + 1}`}
         data-property="name"
-        label={`Player ${iter + 1} name:`}
+        preLabel={`Player ${iter + 1} name:`}
         onChange={(e) => {
           const target = e.target;
           // console.log('testing change', target.value);
@@ -146,7 +147,7 @@ const SetupForm = () => {
     const realPlayers = playersArr.filter((player) => player.isReal);
     const theRealPlayers = realPlayers.map((player) => (
       <Input
-        label={player.name}
+        postLabel={player.name}
         key={`${player.player}RealGoodPlayerKey`}
         type="checkbox"
         name={`${player.player}`}
@@ -177,7 +178,7 @@ const SetupForm = () => {
       <>
         <h4>What's the initial hoard size?</h4>
         <Input
-          label="Hoard Size"
+          preLabel="Hoard Size"
           type="number"
           name="hoardSize"
           data-property="hoard"
