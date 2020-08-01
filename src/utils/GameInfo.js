@@ -72,6 +72,7 @@ const GameProvider = ({ children }) => {
             this.isRealGood = isRealGood;
             this.hoard = hoard;
             this.flight = flight;
+            this.winner = "false";
           }
         }
         function newPlayer() {

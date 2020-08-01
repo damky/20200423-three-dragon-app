@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from "react";
-import { Switch, Route, Link } from "react-router-dom";
+import { Switch, Route, Link, Redirect } from "react-router-dom";
 import SelectOption from "./SelectOption";
 import { GameContext } from "../utils/GameInfo";
 import Input from "./Input";
@@ -26,11 +26,7 @@ const SetupForm = () => {
     // function subtr(){dispatch({type:'SUBTRACT_STEP'})}
     function startOver() {
       dispatch({ type: "START_OVER" });
-      document.location =
-        document.location.protocol +
-        "//" +
-        document.location.host +
-        "/play/setup/";
+      return <Redirect to="/play/setup/" />;
     }
     return (
       <>

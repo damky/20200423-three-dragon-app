@@ -13,7 +13,7 @@ function Game(props) {
 
   const Player = (props) => {
     return (
-      <div className="player" id={props.id}>
+      <div className="player" id={props.id} data-winner={props.winner}>
         <h3 className="name">{props.name}</h3>
         <p>
           <b>Hoard: </b>
@@ -26,7 +26,7 @@ function Game(props) {
         </p>
         <p>
           <b>Flight: </b>
-          <span className="flight">{props.flight}</span>
+          <span className="flight"></span>
         </p>
       </div>
     );
@@ -40,6 +40,7 @@ function Game(props) {
       hoard={player.hoard}
       ante={player.ante}
       denomination={state.gambit.denomination}
+      winner={player.winner}
     />
   ));
 
@@ -49,6 +50,7 @@ function Game(props) {
       // reset flights
       turnOrder.forEach((turn) => {
         stPlayers[turn].flight = [];
+        stPlayers[turn].winner = "false";
         state.gambit.allDragons = [];
       });
 
@@ -114,6 +116,7 @@ function Game(props) {
             if (x === 2) {
               this.strength = roll("1d4");
               this.type = "Brass";
+              this.god = false;
               return;
             }
             if (x === 3) {
@@ -192,17 +195,86 @@ function Game(props) {
           state.gambit.strongestFlightWins = false;
         }
 
-        // evaluate flights
+        let flightStrengths = turnOrder.map(
+          (turn) =>
+            stPlayers[turn].flight[0].strength +
+            stPlayers[turn].flight[1].strength +
+            stPlayers[turn].flight[2].strength
+        );
 
+        // evaluate the winner and loser
+        const winner = evalWinner(evalWinner);
+        const loser = evalLoser(evalLoser);
+
+        // if tiamat then loser wins
+        state.gambit.strongestFlightWins
+          ? (winner.winner = "true")
+          : (loser.winner = "true");
+
+        // apply style trigger for winner
         turnOrder.forEach((turn) => {
-          let first = stPlayers[turn].flight[0];
-          let strengthFlight = stPlayers[turn].flight.every(
-            (x) => x.strength === first
-          )
-            ? true
-            : false;
-          console.log("strengthFlight", strengthFlight);
+          stPlayers[turn].winner === "true"
+            ? (document.querySelector(`#${turn}`).dataset.winner = "true")
+            : (document.querySelector(`#${turn}`).dataset.winner = "false");
         });
+
+        function evalWinner(callback) {
+          let maxFlightStrength = Math.max(...flightStrengths);
+          let maxFSIter = 0;
+
+          flightStrengths.forEach((strength) => {
+            if (maxFlightStrength === strength) {
+              maxFSIter = maxFSIter + 1;
+            }
+          });
+
+          if (maxFSIter === 1) {
+            console.log(
+              "winner",
+              stPlayers[turnOrder[flightStrengths.indexOf(maxFlightStrength)]]
+            );
+
+            return stPlayers[
+              turnOrder[flightStrengths.indexOf(maxFlightStrength)]
+            ];
+          }
+
+          if (maxFSIter > 1) {
+            flightStrengths = flightStrengths.map((strength) =>
+              strength === maxFlightStrength ? null : strength
+            );
+            callback();
+          }
+        }
+
+        function evalLoser(callback) {
+          let minFlightStrength = Math.min(...flightStrengths);
+          let minFSIter = 0;
+
+          flightStrengths.forEach((strength) => {
+            if (minFlightStrength === strength) {
+              minFSIter = minFSIter + 1;
+            }
+          });
+
+          if (minFSIter === 1) {
+            console.log(
+              "Loser",
+              stPlayers[turnOrder[flightStrengths.indexOf(minFlightStrength)]]
+            );
+
+            return stPlayers[
+              turnOrder[flightStrengths.indexOf(minFlightStrength)]
+            ];
+          }
+
+          if (minFSIter > 1) {
+            flightStrengths = flightStrengths.map((strength) =>
+              strength === minFlightStrength ? null : strength
+            );
+            callback();
+          }
+        }
 
         console.log(state.gambit.allDragons);
       }
