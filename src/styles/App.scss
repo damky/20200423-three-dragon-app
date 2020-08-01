@@ -1,9 +1,10 @@
 @import "./colors.scss";
 
 main {
-  max-width: 1200px;
   padding: 1rem;
-  margin: 12vw auto auto;
+  display: flex;
+  flex-flow: row wrap;
+  margin: auto;
 
   .centerBlock {
     margin: auto;
@@ -23,4 +24,8 @@ main {
 
 [data-winner="true"] {
   background-color: #16831d;
+}
+
+a {
+  color: rgb(255, 80, 109);
 }
