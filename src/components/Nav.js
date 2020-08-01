@@ -4,10 +4,12 @@ import "../styles/Nav.scss";
 
 function Nav() {
   return (
-    <nav className='Nav'>
+    <nav className="Nav">
       <ul>
         <li>
-          <NavLink to="/" className="logo" >Three Dragons</NavLink>
+          <NavLink to="/" className="logo">
+            Three Dragons
+          </NavLink>
         </li>
         <li>
           <NavLink to="/">Home</NavLink>
@@ -20,7 +22,7 @@ function Nav() {
         </li>
       </ul>
     </nav>
-  )
+  );
 }
 
-export default Nav
+export default Nav;

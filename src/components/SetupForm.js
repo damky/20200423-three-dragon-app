@@ -26,7 +26,7 @@ const SetupForm = () => {
     // function subtr(){dispatch({type:'SUBTRACT_STEP'})}
     function startOver() {
       dispatch({ type: "START_OVER" });
-      return <Redirect to="/play/setup/" />;
+      return <Redirect to="/play/setup" />;
     }
     return (
       <>
@@ -258,7 +258,7 @@ const SetupForm = () => {
   return (
     <form className="setup">
       <Switch>
-        <Route path="/play/setup/" component={Steps} />
+        <Route path="/play/setup" component={Steps} />
       </Switch>
     </form>
   );
