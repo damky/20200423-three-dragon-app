@@ -9,6 +9,7 @@ import * as serviceWorker from "./serviceWorker";
 import "./index.scss";
 import App from "./App";
 import { GameProvider } from "./utils/GameInfo";
+import { BrowserRouter } from "react-router-dom";
 
 // class HeadChildren extends React.Component {
 //   render() {
@@ -43,11 +44,13 @@ class Store extends React.Component {
 
   render() {
     return (
-      <StoreContext.Provider value={this.state}>
-        <GameProvider>
-          <App />
-        </GameProvider>
-      </StoreContext.Provider>
+      <BrowserRouter>
+        <StoreContext.Provider value={this.state}>
+          <GameProvider>
+            <App />
+          </GameProvider>
+        </StoreContext.Provider>
+      </BrowserRouter>
     );
   }
 }
